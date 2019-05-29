@@ -1,0 +1,19 @@
+.home{
+    width:100%;
+    height:100%;
+    background-image: url("../img/home_bg.jpg");
+    background-size: cover;
+    background-repeat:no-repeat;
+    
+}
+.home-paper{
+    padding:20px 50px;
+    position: absolute; 
+    left: 50%; 
+    bottom: 0;
+    transform: translate(-50%, -50%);
+}
+.home-start{
+    width:100%;
+    height: 50px;
+}
