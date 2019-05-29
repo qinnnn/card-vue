@@ -69,6 +69,32 @@ export default {
         }
         this.getCaptcha()
     },
+    computed: {
+        userName: {
+            get() {
+                return this.$store.state.user.userName;
+            },
+            set(val) {
+                this.$store.commit("user/updateUserName", val);
+            }
+        },
+        // userId: {
+        //     get() {
+        //         return this.$store.state.user.userId;
+        //     },
+        //     set(val) {
+        //         this.$store.commit("user/updateUserId", val);
+        //     }
+        // },
+        money: {
+            get() {
+                return this.$store.state.user.money;
+            },
+            set(val) {
+                this.$store.commit("user/updateMoney", val);
+            }
+        }
+    },
     methods:{
         dataFromSubmit(){
             this.$refs.form.validate().then((result) => {
@@ -87,6 +113,9 @@ export default {
                         if (data && data.code === 0) {
                             this.$cookie.set("token", data.token);
                             this.$router.replace({ name: "home" });
+                            this.userName = data.user.name;
+                            // this.userId = data.user.userId;
+                            this.money = data.user.money;
                         } else {
                             this.$toast.message(data.msg);
                         }

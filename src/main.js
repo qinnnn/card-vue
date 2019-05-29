@@ -17,7 +17,6 @@ import '@/assets/scss/index.scss'
 
 Vue.config.productionTip = false
 
-
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 

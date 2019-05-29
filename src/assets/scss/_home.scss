@@ -1,7 +1,7 @@
 .home{
     width:100%;
     height:100%;
-    background-image: url("../img/home_bg.jpg");
+    // background-image: url("../img/home_bg.jpg");
     background-size: cover;
     background-repeat:no-repeat;
     
@@ -10,10 +10,22 @@
     padding:20px 50px;
     position: absolute; 
     left: 50%; 
-    bottom: 0;
+    bottom: 50%;
     transform: translate(-50%, -50%);
 }
 .home-start{
     width:100%;
     height: 50px;
+}
+.home-mycard{
+    padding:20px;
+    position: absolute; 
+    right: 0; 
+    bottom: 0;
+}
+.home-myinfo{
+    padding:20px;
+    position: absolute; 
+    right: 0; 
+    top: 0;
 }

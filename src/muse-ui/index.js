@@ -4,6 +4,7 @@ import 'muse-ui/lib/styles/theme.less';
 import 'muse-ui/dist/muse-ui.css';
 import Toast from 'muse-ui-toast';
 import Message from 'muse-ui-message';
+import Loading from 'muse-ui-loading';
 import {
   Alert,
   AppBar,
@@ -94,3 +95,4 @@ Vue.use(Tooltip);
 
 Vue.use(Toast);
 Vue.use(Message);
+Vue.use(Loading);

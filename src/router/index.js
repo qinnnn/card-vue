@@ -21,6 +21,11 @@ const router = new Router({
       name: 'home',
       components: require("@/view/home")
     },
+    {
+      path: '/cardBag',
+      name: 'cardBag',
+      components: require("@/view/cardBag")
+    },
   ]
 })
 
