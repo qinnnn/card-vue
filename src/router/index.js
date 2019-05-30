@@ -26,6 +26,16 @@ const router = new Router({
       name: 'cardBag',
       components: require("@/view/cardBag")
     },
+    {
+      path: '/cardPumping',
+      name: 'cardPumping',
+      components: require("@/view/cardPumping")
+    },
+    {
+      path: '/battlePVP',
+      name: 'battlePVP',
+      components: require("@/view/battlePVP")
+    },
   ]
 })
 

@@ -3,7 +3,7 @@ export default {
   state: {
     // userId: 0,
     userName: JSON.parse(localStorage.getItem("userName")) || '',
-    money: JSON.parse(localStorage.getItem("money")) || "0",
+    money: JSON.parse(localStorage.getItem("money"))+"" || "0",
   },
   mutations: {
     // updateUserId(state, userId) {

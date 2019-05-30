@@ -1,16 +1,16 @@
 <template>
     <div class="cardBag">
-            <mu-appbar color="primary" title="我的卡牌">
+            <mu-appbar color="primary" title="我的卡包">
             <mu-button slot="right" flat  @click="close">
                 关闭
             </mu-button>
             </mu-appbar>
-            <div class="cardBag-view">
-                <mu-paper class="cardBag-left" :z-depth="0">
-                </mu-paper>
-                <mu-paper class="cardBag-right" :z-depth="5">
-                </mu-paper>
-            </div>
+            <mu-paper class="cardPumping-right" :z-depth="0">
+            </mu-paper>
+            <mu-paper class="cardPumping-left" :z-depth="5">
+
+                <mu-ripple class="cardPumping-shop" @click="shop" color="white">牌店</mu-ripple>
+            </mu-paper>
     </div>
 </template>
 
@@ -52,6 +52,9 @@ export default {
         //关闭
         close(){
             this.$router.replace({ name: "home" });
+        },
+        shop(){
+            this.$router.replace({ name: "shop" });
         }
     }
 }

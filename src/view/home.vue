@@ -5,10 +5,10 @@
                 {{name}}
             </mu-avatar>
             {{userName}}
-            <mu-badge style="margin-left:10px;" :content='money' color="secondary"></mu-badge>
+            <mu-badge style="margin-left:10px;" :content='"￥"+money' color="secondary"></mu-badge>
         </mu-paper>
         <mu-paper class="home-paper" :z-depth="5">
-            <mu-button color="info">对战模式</mu-button>
+            <mu-button @click="battlePVP" color="info">对战模式</mu-button>
             <mu-button color="info">冒险模式</mu-button>
             <mu-button color="info">竞技模式</mu-button>
             <mu-button color="info">乱斗模式</mu-button>
@@ -53,7 +53,10 @@ export default {
         //我的卡包 抽卡
         cardPumping(){
             this.$router.replace({ name: "cardPumping" });
-        }
+        },
+        battlePVP(){
+            this.$router.replace({ name: "battlePVP" });
+        },
     }
 }
 </script>

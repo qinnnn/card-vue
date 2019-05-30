@@ -5,12 +5,10 @@
                 关闭
             </mu-button>
             </mu-appbar>
-            <div class="cardBag-view">
-                <mu-paper class="cardBag-left" :z-depth="0">
-                </mu-paper>
-                <mu-paper class="cardBag-right" :z-depth="5">
-                </mu-paper>
-            </div>
+            <mu-paper class="cardBag-left" :z-depth="0">
+            </mu-paper>
+            <mu-paper class="cardBag-right" :z-depth="5">
+            </mu-paper>
     </div>
 </template>
 
@@ -25,14 +23,14 @@ export default {
             dataListLoading: false,
         }
     },
-    activated(){
+    mounted(){
         this.getDateList();
     },
     methods:{
         getDateList(){
             const loading = this.$loading();
             this.$http({
-                url: this.$http.adornUrl("/hotel/selfhotel/list"),
+                url: this.$http.adornUrl("/card/list"),
                 method: "get",
                 params: this.$http.adornParams({
                 page: this.pageIndex,
@@ -40,6 +38,7 @@ export default {
                 })
             }).then(({ data }) => {
                 if (data && data.code === 0) {
+                    console.log(data)
                     this.mycardBagList = data.cardBagList;
                     this.mycardList = data.cardList;
                 } else {
