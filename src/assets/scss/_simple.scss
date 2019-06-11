@@ -1,0 +1,15 @@
+//简介的 小的
+
+// 上传卡牌界面
+.upCard{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+}
+.upCard-card{
+  width: 500px;
+  padding:25px;
+}
+

@@ -17,6 +17,9 @@
             <mu-button color="info" @click="cardPumping">我的卡包</mu-button><br/>
             <mu-button style="margin-top:10px;" color="info" @click="mycardBag">我的卡牌</mu-button>
         </mu-paper>
+        <mu-paper class="home-upCard" :z-depth="5">
+            <mu-button color="info" @click="upCard">上传卡牌</mu-button>
+        </mu-paper>
     </div>
 </template>
 
@@ -57,6 +60,10 @@ export default {
         battlePVP(){
             this.$router.replace({ name: "battlePVP" });
         },
+        //上传卡牌
+        upCard(){
+            this.$router.replace({ name: "upCard" });
+        }
     }
 }
 </script>

@@ -61,25 +61,35 @@ export default {
       //错误
       console.log("WebSocket连接发生错误");
     },
-    websocketonmessage(e) {
-      console.log(e);
-      //数据接收
-      //const redata = JSON.parse(e.data); //注意：长连接我们是后台直接1秒推送一条数据，
-      //但是点击某个列表时，会发送给后台一个标识，后台根据此标识返回相对应的数据，
-      //这个时候数据就只能从一个出口出，所以让后台加了一个键，例如键为1时，是每隔1秒推送的数据，为2时是发送标识后再推送的数据，以作区分
-      //console.log(redata.value);
-    },
-    websocketsend(agentData) {
-      console.log(agentData);
-      //数据发送
-      this.websock.send("aaadddaaaaa");
-    },
-
     websocketclose(e) {
       //关闭
       this.websock.close();
       console.log("connection closed (" + e.code + ")");
-    }
+    },
+    websocketonmessage(e) {
+      console.log(e);
+      //数据接收
+      const redata = JSON.parse(e.data);
+      switch(redata.key){
+        case "token": //token验证成功
+            
+            tokenCallback(redata)
+          break;
+
+      }
+    },
+    tokenCallback(redata){ //token验证成功
+      switch(redata.type){
+        case 1:
+          //重连
+          break;
+        case 0:
+          //准备匹配
+          //卡包列表
+          break;
+      }
+    },
+    
   }
 };
 </script>

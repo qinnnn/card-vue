@@ -2,6 +2,7 @@ import Vue from 'vue';
 import 'muse-ui/lib/styles/base.less';
 import 'muse-ui/lib/styles/theme.less';
 import 'muse-ui/dist/muse-ui.css';
+import 'muse-ui-message/dist/muse-ui-message.css';
 import Toast from 'muse-ui-toast';
 import Message from 'muse-ui-message';
 import Loading from 'muse-ui-loading';

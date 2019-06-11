@@ -8,7 +8,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: '/',
+      name: 'home',
       components: require("@/view/home")
     },
     {
@@ -35,6 +35,11 @@ const router = new Router({
       path: '/battlePVP',
       name: 'battlePVP',
       components: require("@/view/battlePVP")
+    },
+    {
+      path: '/upCard',
+      name: 'upCard',
+      components: require("@/view/upCard")
     },
   ]
 })

@@ -7,6 +7,21 @@
  margin:0;
  padding:0; 
 }
+@font-face {
+  font-family: 'iconfont';  /* project id 1237575 */
+  src: url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.eot');
+  src: url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1237575_bvla9tvet9t.svg#iconfont') format('svg');
+}
+.iconfont{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;}
 body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 14px;
@@ -39,5 +54,16 @@ img {
   width:100vw;
   height: 100vh;
 }
-
+.ordinary{
+  background-color: #cdd2ea;
+}
+.rare{
+  background-color: #1f3e70;
+}
+.legend{
+  background-color: #9f2dbe;
+}
+.epic{
+  background-color: #fe9f06;
+}
 
