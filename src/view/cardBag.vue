@@ -8,9 +8,9 @@
             <mu-paper class="cardBag-left" :z-depth="0">
                 <mu-paper class="cardBag-card" :z-depth="1">
                     <div v-for="(itme,key) in mycardList" :key="key" class="cardBag-cardList">
-                        <div v-if="itme.type==0" class="cardBag-cardInfo">
+                        <div v-if="itme.type==0" class="cardBag-cardInfo" @click="addCard(key)">
                             <div class="cardBag-crystal">{{itme.crystal}}</div>
-                            <div class="cardBag-img" :style="'background-image: url('+itme.cardImg+')'"></div>
+                            <div class="cardBag-img" ></div> <!--:style="'background-image: url('+itme.cardImg+')'"-->
                             <div :class="itme.rarity==0?'cardBag-title ordinary':itme.rarity==1?'cardBag-title rare':itme.rarity==2?'cardBag-title legend':'cardBag-title epic'">{{itme.cardName}}</div>
                             <div class="cardBag-txt">
                                 <div class="cardBag-txt-cont">
@@ -37,7 +37,25 @@
                 </mu-paper>
             </mu-paper>
             <mu-paper class="cardBag-right" :z-depth="5">
-                <div class="cardBag-newBag">新建卡组</div>
+                <div class="cardBag-newBag" @click="newCardBag">新建卡组</div>
+                <div class="cardBag-bagList" v-for="(item,key) in mycardBagList" :key="key">
+                    <div class="cardBag-bagName">{{item.bagName}}</div>
+                </div>
+                <div class="cardBag-new" v-if="cardBagState">
+                    <div class="cardBag-new-buttom">
+                        <mu-button color="warning">取消</mu-button>
+                        <mu-button color="primary">保存</mu-button>
+                    </div>
+                    <mu-text-field v-model="cardBagInfo.bagName" label="卡组名称" label-float ></mu-text-field>
+                    <div class="cardBag-new-list">
+                        <div :class="item.rarity==0?'cardBag-new-li ordinary':item.rarity==1?'cardBag-new-li rare':item.rarity==2?'cardBag-new-li legend':'cardBag-new-li epic'" v-for="(item,key) in cardBagInfo.cardBagDetailsEntityList" :key="key">
+                            <div class="cardBag-new-crystal">{{item.crystal}}</div>
+                            <div class="cardBag-new-title">{{item.cardName}}</div>
+                            <div class="cardBag-new-number">x {{item.number}}</div>
+                        </div>
+                    </div>
+
+                </div>
             </mu-paper>
     </div>
 </template>
@@ -48,9 +66,14 @@ export default {
         return{
             pageIndex: 1,
             pageSize: 15,
-            mycardBagList:[],
-            mycardList:[],
+            mycardBagList:[], //我的卡组
+            mycardList:[], //我的卡牌
             dataListLoading: false,
+            cardBagState: true, //当前卡组显示状态
+            cardBagInfo: { //当前卡组信息
+                bagName:"",
+                cardBagDetailsEntityList:[]
+            },
         }
     },
     mounted(){
@@ -80,6 +103,46 @@ export default {
         //关闭
         close(){
             this.$router.replace({ name: "home" });
+        },
+        addCard(key){ //添加卡牌
+            this.mycardList[key]
+            var state = true;
+            for(var i = 0;i<this.cardBagInfo.cardBagDetailsEntityList.length;i++){
+                if(this.cardBagInfo.cardBagDetailsEntityList[i].cardId == this.mycardList[key].cardId&&this.cardBagInfo.cardBagDetailsEntityList[i].number==2){ //已超出
+                    state = false;
+                    this.$toast.message("同种类型的卡只可以放2张!");
+                }else if(this.cardBagInfo.cardBagDetailsEntityList[i].cardId == this.mycardList[key].cardId&&this.cardBagInfo.cardBagDetailsEntityList[i].number==1){
+                    this.cardBagInfo.cardBagDetailsEntityList[i].number = 2
+                    state = false;
+                }
+            }
+            if(state){
+                var obj = {
+                    cardId:this.mycardList[key].cardId,
+                    crystal:this.mycardList[key].crystal,
+                    cardName:this.mycardList[key].cardName,
+                    rarity:this.mycardList[key].rarity,
+                    number:1
+                }
+                this.cardBagInfo.cardBagDetailsEntityList.push(obj)
+                for(var i=0;i<this.cardBagInfo.cardBagDetailsEntityList.length;i++){
+                    for(var j = i + 1;j<this.cardBagInfo.cardBagDetailsEntityList.length;j++){
+                        if(this.cardBagInfo.cardBagDetailsEntityList[i].crystal>this.cardBagInfo.cardBagDetailsEntityList[j].crystal){
+                            var tmp = this.cardBagInfo.cardBagDetailsEntityList[i];
+                            this.cardBagInfo.cardBagDetailsEntityList[i] = this.cardBagInfo.cardBagDetailsEntityList[j];
+                            this.cardBagInfo.cardBagDetailsEntityList[j] = tmp;
+                        }
+                    }
+                }
+            }
+
+        },
+        newCardBag(){ //新建卡组
+            this.cardBagState = true
+            this.cardBagInfo= { //当前卡组信息
+                bagName:"",
+                cardBagDetailsEntityList:[]
+            }
         }
     }
 }

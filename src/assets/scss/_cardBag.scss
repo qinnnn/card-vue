@@ -66,6 +66,9 @@
     color: #fff;
     font-size: 16px;
 }
+.cardBag-newBag:hover{
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+}
 .cardBag-card{
     width:70vw;
     height: 80vh;
@@ -164,4 +167,55 @@
     width: 100%;
     text-align: center;
     margin-top: 6px;
+}
+.cardBag-bagList{
+
+}
+.cardBag-new{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0;
+    background-color: #fff;
+}
+.cardBag-new-buttom{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.cardBag-new-list{
+    margin-top: 20px;
+    padding:0 20px;
+}
+.cardBag-new-li{
+    margin: 10px 0;
+    position: relative;
+    height: 35px;
+    transition: all 5s;
+}
+.cardBag-new-crystal{
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    background-color: #fff;
+    border: 1px solid #666;
+    float:left;
+    margin: 5px 0 0 5px;
+}
+.cardBag-new-title{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 35px;
+    color: #fff;
+}
+.cardBag-new-number{
+    float: right;
+    color: #fff;
+    line-height: 35px;
+    margin-right: 10px;
 }

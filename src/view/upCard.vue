@@ -60,7 +60,7 @@
                         <mu-radio v-model="validateForm.oppor" value="1" label="回合结束时"></mu-radio>
                         <mu-radio v-model="validateForm.oppor" value="2" label="回合开始时"></mu-radio>
                         <mu-radio v-model="validateForm.oppor" value="3" label="我方随从死亡时"></mu-radio>
-                        <mu-radio v-model="validateForm.oppor" value="3" label="敌方随从死亡时"></mu-radio>
+                        <mu-radio v-model="validateForm.oppor" value="4" label="敌方随从死亡时"></mu-radio>
                     </mu-form-item>
                     <mu-form-item label="是否有影响" prop="isEffect" help-text="影响就是是否加血或扣血等意思" :rules="isEffectRules">
                         <mu-radio v-model="validateForm.isEffect" @click="closeEffect" value="0" label="无影响"></mu-radio>
@@ -89,7 +89,7 @@
                         <mu-radio v-model="validateForm.effectBreach" value="0" label="不突破"></mu-radio>
                         <mu-radio v-model="validateForm.effectBreach" value="1" label="突破"></mu-radio>
                     </mu-form-item>
-                    <mu-form-item label="卡牌关键字" help-text="例如:战吼,嘲讽,风怒" prop="keyword">
+                    <mu-form-item label="卡牌关键字" help-text="例如:战吼 嘲讽 风怒" prop="keyword">
                         <mu-text-field v-model="validateForm.keyword" prop="keyword"></mu-text-field>
                     </mu-form-item>
                     <mu-form-item label="卡牌介绍" help-text="显示的文字描述(别太长会隐藏的)" prop="introduce">
