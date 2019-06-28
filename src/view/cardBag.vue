@@ -36,19 +36,21 @@
                     </div>
                 </mu-paper>
             </mu-paper>
+            
             <mu-paper class="cardBag-right" :z-depth="5">
                 <div class="cardBag-newBag" @click="newCardBag">新建卡组</div>
-                <div class="cardBag-bagList" v-for="(item,key) in mycardBagList" :key="key">
+                <div class="cardBag-bagList" v-for="(item,key) in mycardBagList" :key="key" @click="updateCardBag(item.cardBagId)">
                     <div class="cardBag-bagName">{{item.bagName}}</div>
+                    <div class="cardBag-bagNumber">{{item.cardNumber}}/40</div>
                 </div>
                 <div class="cardBag-new" v-if="cardBagState">
                     <div class="cardBag-new-buttom">
-                        <mu-button color="warning">取消</mu-button>
-                        <mu-button color="primary">保存</mu-button>
+                        <mu-button color="warning" @click="cardBagState = false">取消</mu-button>
+                        <mu-button @click="saveCardBag" color="primary">保存</mu-button>
                     </div>
                     <mu-text-field v-model="cardBagInfo.bagName" label="卡组名称" label-float ></mu-text-field>
                     <div class="cardBag-new-list">
-                        <div :class="item.rarity==0?'cardBag-new-li ordinary':item.rarity==1?'cardBag-new-li rare':item.rarity==2?'cardBag-new-li legend':'cardBag-new-li epic'" v-for="(item,key) in cardBagInfo.cardBagDetailsEntityList" :key="key">
+                        <div @click="deleteCard(key)" :class="item.rarity==0?'cardBag-new-li ordinary':item.rarity==1?'cardBag-new-li rare':item.rarity==2?'cardBag-new-li legend':'cardBag-new-li epic'" v-for="(item,key) in cardBagInfo.cardBagDetailsEntityList" :key="key">
                             <div class="cardBag-new-crystal">{{item.crystal}}</div>
                             <div class="cardBag-new-title">{{item.cardName}}</div>
                             <div class="cardBag-new-number">x {{item.number}}</div>
@@ -69,7 +71,7 @@ export default {
             mycardBagList:[], //我的卡组
             mycardList:[], //我的卡牌
             dataListLoading: false,
-            cardBagState: true, //当前卡组显示状态
+            cardBagState: false, //当前卡组显示状态
             cardBagInfo: { //当前卡组信息
                 bagName:"",
                 cardBagDetailsEntityList:[]
@@ -78,8 +80,27 @@ export default {
     },
     mounted(){
         this.getDateList();
+
+        this.reverserNumber(1201)
     },
     methods:{
+        reverserNumber(number){
+            number = number+""
+            var num = "";
+            for(var i=number.length-1; i>=0; i--){
+                num += number[i];
+            }
+            console.log(parseInt(num))
+        },
+        indexOfs(haystack,needle){
+            var str2 = needle.length
+            for(let i=0;i<haystack.length;i++){
+                if(haystack.substring(i,str2+i)==needle){
+                    console.log(i)
+                    return
+                }
+            }
+        },
         getDateList(){
             const loading = this.$loading();
             this.$http({
@@ -91,8 +112,16 @@ export default {
                 })
             }).then(({ data }) => {
                 if (data && data.code === 0) {
-                    this.mycardBagList = data.cardBagList;
+                    console.log(data.cardBagList)
                     this.mycardList = data.cardList;
+                    for(var i in data.cardBagList){
+                        var number = 0;
+                        for(var j in data.cardBagList[i].cardBagDetailsEntityList){
+                            number+= data.cardBagList[i].cardBagDetailsEntityList[j].number
+                        }
+                        data.cardBagList[i].cardNumber = number
+                    }
+                    this.mycardBagList = data.cardBagList;
                 } else {
                     this.mycardBagList = [];
                     this.mycardList = [];
@@ -105,7 +134,6 @@ export default {
             this.$router.replace({ name: "home" });
         },
         addCard(key){ //添加卡牌
-            this.mycardList[key]
             var state = true;
             for(var i = 0;i<this.cardBagInfo.cardBagDetailsEntityList.length;i++){
                 if(this.cardBagInfo.cardBagDetailsEntityList[i].cardId == this.mycardList[key].cardId&&this.cardBagInfo.cardBagDetailsEntityList[i].number==2){ //已超出
@@ -140,8 +168,83 @@ export default {
         newCardBag(){ //新建卡组
             this.cardBagState = true
             this.cardBagInfo= { //当前卡组信息
+                cardBagId: 0,
                 bagName:"",
                 cardBagDetailsEntityList:[]
+            }
+        },
+        updateCardBag(id){ //修改卡组
+            this.cardBagState = true
+            for(var i in this.mycardBagList){
+                if(this.mycardBagList[i].cardBagId==id){
+                    this.cardBagInfo= { //当前卡组信息
+                        cardBagId: this.mycardBagList[i].cardBagId,
+                        bagName:this.mycardBagList[i].bagName,
+                        cardBagDetailsEntityList:this.mycardBagList[i].cardBagDetailsEntityList
+                    }
+                }
+            }
+            
+        },
+        saveCardBag(){ //保存卡组
+            if(this.cardBagInfo.bagName==""){
+                this.$toast.message("请输入卡包名称");
+                return
+            }
+            var number = 0;
+            var arr = ""
+            for(var item in this.cardBagInfo.cardBagDetailsEntityList){
+                number += this.cardBagInfo.cardBagDetailsEntityList[item].number
+                if(arr){
+                    arr += "-#-" + JSON.stringify(this.cardBagInfo.cardBagDetailsEntityList[item])
+                }else{
+                    arr = JSON.stringify(this.cardBagInfo.cardBagDetailsEntityList[item])
+                }
+            }
+            // console.log(number)
+            if(this.cardBagInfo.cardBagId==0){ //新增
+                this.$http({
+                    url: this.$http.adornUrl("/cardbag/save"),
+                    method: "post",
+                    data: this.$http.adornData({
+                        bagName: this.cardBagInfo.bagName,
+                        arr: arr,
+                    })
+                }).then(({ data }) => {
+                    if (data && data.code === 0) {
+                        this.$toast.message("保存成功");
+                        this.cardBagState = false
+                        this.getDateList()
+                    } else {
+                        this.$toast.message(data.msg);
+                    }
+                });
+            }else{ //修改
+                this.$http({
+                    url: this.$http.adornUrl("/cardbag/update"),
+                    method: "post",
+                    data: this.$http.adornData({
+                        bagName: this.cardBagInfo.bagName,
+                        arr: arr,
+                        cardBagId: this.cardBagInfo.cardBagId,
+                    })
+                }).then(({ data }) => {
+                    if (data && data.code === 0) {
+                        this.$toast.message("修改成功");
+                        this.cardBagState = false
+                        this.getDateList()
+                    } else {
+                        this.$toast.message(data.msg);
+                    }
+                });
+            }
+        },
+        deleteCard(key){ //删除卡牌
+            // console.log(key)
+            if(this.cardBagInfo.cardBagDetailsEntityList[key].number==2){
+                this.cardBagInfo.cardBagDetailsEntityList[key].number=1
+            }else{
+                this.cardBagInfo.cardBagDetailsEntityList.splice(key,1)
             }
         }
     }
