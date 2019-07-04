@@ -13,3 +13,26 @@
   padding:25px;
 }
 
+
+//选择卡包对战界面
+.cardBagChList{
+  cursor: pointer;
+  width: 260px;
+  height: 80px;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 80px;
+  background-color: #2196f3;
+  margin: 25px;
+  float: left;
+  color: #fff;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+.cardBagChList:hover{
+  width: 270px;
+  height: 90px;
+  margin: 20px;
+  line-height: 90px;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+}

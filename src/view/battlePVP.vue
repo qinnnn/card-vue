@@ -39,24 +39,26 @@ export default {
   },
   methods: {
     init() {
-      if ("WebSocket" in window) {
-        this.websock = new WebSocket(
-          window.SITE_CONFIG["webSocketUrl"] + "/webSocket"
-        );
-      } else {
-        alert("浏览器不支持");
-      }
-      this.websock.onopen = this.websocketonopen;
-      this.websock.onerror = this.websocketonerror;
-      this.websock.onmessage = this.websocketonmessage;
-      this.websock.onclose = this.websocketclose;
+    //   if ("WebSocket" in window) {
+    //     this.websock = new WebSocket(
+    //       window.SITE_CONFIG["webSocketUrl"] + "/webSocket"
+    //     );
+    //   } else {
+    //     alert("浏览器不支持");
+    //   }
+    //   this.websock.onopen = this.websocketonopen;
+    //   this.websock.onerror = this.websocketonerror;
+    //   this.websock.onmessage = this.websocketonmessage;
+    //   this.websock.onclose = this.websocketclose;
+       this.websocketonerror = this.$socket.onerror;
+       this.websocketonmessage = this.$socket.onmessage;
     },
-    websocketonopen() {
-      console.log("服务器连接成功");
-      this.websock.send(
-        JSON.stringify({ key: "token", value: this.$cookie.get("token") })
-      );
-    },
+    // websocketonopen() {
+    //   console.log("服务器连接成功");
+    //   this.websock.send(
+    //     JSON.stringify({ key: "token", value: this.$cookie.get("token") })
+    //   );
+    // },
     websocketonerror(e) {
       //错误
       console.log("WebSocket连接发生错误");
@@ -72,7 +74,6 @@ export default {
       const redata = JSON.parse(e.data);
       switch(redata.key){
         case "token": //token验证成功
-            
             tokenCallback(redata)
           break;
 

@@ -80,27 +80,8 @@ export default {
     },
     mounted(){
         this.getDateList();
-
-        this.reverserNumber(1201)
     },
     methods:{
-        reverserNumber(number){
-            number = number+""
-            var num = "";
-            for(var i=number.length-1; i>=0; i--){
-                num += number[i];
-            }
-            console.log(parseInt(num))
-        },
-        indexOfs(haystack,needle){
-            var str2 = needle.length
-            for(let i=0;i<haystack.length;i++){
-                if(haystack.substring(i,str2+i)==needle){
-                    console.log(i)
-                    return
-                }
-            }
-        },
         getDateList(){
             const loading = this.$loading();
             this.$http({

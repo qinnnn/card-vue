@@ -5,8 +5,8 @@
   window.SITE_CONFIG = {};
 
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'http://10.50.37.207:8989/card';
-  window.SITE_CONFIG['webSocketUrl'] = 'ws://10.50.37.207:8989/card';
+  window.SITE_CONFIG['baseUrl'] = 'http://localhost:8989/card';
+  window.SITE_CONFIG['webSocketUrl'] = 'ws://localhost:8989/card';
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain']  = './'; // 域名

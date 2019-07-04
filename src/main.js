@@ -8,7 +8,7 @@ import VueCookie from 'vue-cookie'
 import { http, blobDownload } from '@/utils/httpRequest'
 import cloneDeep from 'lodash/cloneDeep'
 //typical import
-import {TweenMax, Power2, TimelineLite} from "gsap";
+import { TweenMax, Power2, TimelineLite } from "gsap";
 
 // import Draggable from "gsap/Draggable";
 // import ScrollToPlugin from "gsap/ScrollToPlugin";
@@ -25,6 +25,14 @@ window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 // 挂载全局
 Vue.prototype.$http = http
 
+
+if ("WebSocket" in window) {
+  Vue.prototype.$socket = new WebSocket(
+    window.SITE_CONFIG["webSocketUrl"] + "/webSocket"
+  );
+} else {
+  alert("浏览器不支持");
+}
 new Vue({
   el: '#app',
   router,
