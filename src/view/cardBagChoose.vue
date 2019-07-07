@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { clearLoginInfo } from '@/utils'
 export default {
     data(){
         return{
@@ -27,6 +28,27 @@ export default {
     mounted(){
         this.getDateList();
         this.$socket.onmessage = this.websocketonmessage
+        
+        if(this.$socket.readyState==1){
+
+        }else{
+            this.socketState().then((date)=>{
+                console.log(date)
+                setTimeout(()=>{
+                console.log(this.$socket)
+                },4000)
+            })
+        }
+    },
+    computed:{
+        roomNumber: {
+            get() {
+                return this.$store.state.user.RoomNumber;
+            },
+            set(val) {
+                this.$store.commit("user/updateRoomNumber", val);
+            }
+        },
     },
     methods:{
         getDateList(){
@@ -57,15 +79,36 @@ export default {
         },
         websocketonmessage(e){
             var json = JSON.parse(e.data);
+            console.log(json)
             switch(json.key){
+                case "login": //重新登录
+                    clearLoginInfo()
+                    this.$router.push({ name: 'login' })
+                break;
+                case "reconnect": //重连
+                    this.roomNumber = json.room
+                    this.$router.push({ name: "battlePVP" });
+                break;
+                case "token":
+                    console.log(json.msg)
+                break;
                 case "mate":
-                    console.log("匹配中")
+                    switch(json.type){
+                        case 0: //匹配中
+                            console.log(json.msg)
+                        break;
+                        case 1: //匹配完成
+                            console.log(json.msg)
+                            this.roomNumber = json.room
+                            this.$router.push({ name: "battlePVP" });
+                        break;
+                    }
                 break;
             }
         },
         //关闭
         close(){
-            this.$router.replace({ name: "home" });
+            this.$router.push({ name: "home" });
         },
         openGames(id){ //发送开始匹配信息
             var json ={ 
@@ -76,6 +119,7 @@ export default {
             this.$socket.send(
                 JSON.stringify(json)
             );
+            console.log(this.$socket)
         },
         
     }

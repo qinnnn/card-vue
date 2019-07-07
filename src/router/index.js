@@ -41,6 +41,11 @@ const router = new Router({
       name: 'upCard',
       components: require("@/view/upCard")
     },
+    {
+      path: '/cardBagChoose',
+      name: 'cardBagChoose',
+      components: require("@/view/cardBagChoose")
+    },
   ]
 })
 

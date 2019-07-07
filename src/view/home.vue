@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { clearLoginInfo } from '@/utils'
 export default {
     data(){
         return{
@@ -35,10 +36,15 @@ export default {
     },
     created(){
         this.name = this.userName?this.userName.substr(0,1):"C"
-        // console.log(this.$socket)
+
         this.$socket.onmessage = this.websocketonmessage
-        this.$socket.onopen = this.websocketonopen
-        this.webSocketOpen()
+        if(this.$socket.readyState==1){
+
+        }else{
+            this.socketState().then((date)=>{
+                console.log(date)
+            })
+        }
     },
     computed:{
         userName: {
@@ -50,12 +56,28 @@ export default {
             get() {
                 return this.$store.state.user.money;
             }
-        }
+        },
+        roomNumber: {
+            get() {
+                return this.$store.state.user.RoomNumber;
+            },
+            set(val) {
+                this.$store.commit("user/updateRoomNumber", val);
+            }
+        },
     },
     methods:{
         websocketonmessage(e){
             var json = JSON.parse(e.data);
             switch(json.key){
+                case "login": //重新登录
+                    clearLoginInfo()
+                    this.$router.push({ name: 'login' })
+                break;
+                case "reconnect": //重连
+                    this.roomNumber = json.room
+                    this.$router.push({ name: "battlePVP" });
+                break;
                 case "token":
                     this.number = json.online
                 break;
@@ -64,34 +86,20 @@ export default {
                 break;
             }
         },
-        websocketonopen(){
-            console.log("服务器连接成功");
-        },
-        webSocketOpen(){
-            if(this.$socket.readyState==1){
-                this.$socket.send(
-                    JSON.stringify({ key: "token", value: this.$cookie.get("token") })
-                );
-            }else{
-                setTimeout(()=>{
-                    this.webSocketOpen()
-                },500)
-            }
-        },
         //我的卡牌 卡组
         mycardBag(){
-            this.$router.replace({ name: "cardBag" });
+            this.$router.push({ name: "cardBag" });
         },
         //我的卡包 抽卡
         cardPumping(){
-            this.$router.replace({ name: "cardPumping" });
+            this.$router.push({ name: "cardPumping" });
         },
         battlePVP(){
-            this.$router.replace({ name: "cardBagChoose" });
+            this.$router.push({ name: "cardBagChoose" });
         },
         //上传卡牌
         upCard(){
-            this.$router.replace({ name: "upCard" });
+            this.$router.push({ name: "upCard" });
         }
     }
 }
